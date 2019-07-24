@@ -1,322 +1,345 @@
 <html>
 <head>
-  <title>Dawn of Worlds</title>
+    <title>Dawn of Worlds</title>
 </head>
 <body>
 <style>
-  body {
-      background-color: lightgrey;
-  }
-  th, td {
-      border: 1px solid black;
-      height: 40px;
-      width: 40px;
-      /*padding: 15px;*/
-      font-family: "Courier New";
-      text-align: center;
-  }
-  .legend {
-      color: black;
-      font-weight: bold;
-      /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
-  }
+    body {
+        background-color: lightgrey;
+    }
+    th, td {
+        border: 1px solid black;
+        height: 40px;
+        width: 40px;
+        /*padding: 15px;*/
+        font-family: "Courier New";
+        text-align: center;
+    }
+    .legend {
+        color: black;
+        font-weight: bold;
+        /*text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;*/
+    }
 </style>
+
 <table>
-      <tr onclick="setInputType('color');">
-          <td style="background-color: green;" onclick="setColor('green')" class="legend">Forest</td>
-          <td style="background-color: yellow;" onclick="setColor('yellow');" class="legend">Desert</td>
-          <td style="background-color: white;" onclick="setColor('white');" class="legend">Snow</td>
-          <td style="background-color: deepskyblue;" onclick="setColor('deepskyblue');" class="legend">Water</td>
-          <td style="background-color: lightgreen;" onclick="setColor('lightgreen');" class="legend">Plains</td>
-          <td style="background-color: saddlebrown;" onclick="setColor('saddlebrown');" class="legend">Mountains</td>
-          <td onclick="setColor('');" class="legend">Remove</td>
-          <td style="width: 100px;"><input type="text" name="Color_String" id="colorString" onBlur="setColor('#' + this.value);" maxlength="6" placeholder="ex CFCFCF"></td>
-      </tr>
-      <tr onclick="setInputType('icon');">
-          <td onclick="setIcon('&#x1F332;');" class="legend">&#x1F332;</td>
-          <td onclick="setIcon('&#x1F335;');" class="legend">&#x1F335;</td>
-          <td onclick="setIcon('&#x2744;');" class="legend">&#x2744;</td>
-          <td onclick="setIcon('&#x1F30A;');" class="legend">&#x1F30A;</td>
-          <td onclick="setIcon('&#x1F33E;');" class="legend">&#x1F33E;</td>
-          <td onclick="setIcon('&#x1F5FB;');" class="legend">&#x1F5FB;</td>
-      </tr>
-      <tr onclick="setInputType('icon');">
-          <td onclick="setIcon('&#x1F42F;');" class="legend">&#x1F42F;</td>
-          <td onclick="setIcon('&#x1F418;');" class="legend">&#x1F418;</td>
-          <td onclick="setIcon('&#x1F9DA;');" class="legend">&#x1F9DA;</td>
-          <td onclick="setIcon('&#x1F40E;');" class="legend">&#x1F40E;</td>
-          <td onclick="setIcon('&#x1F98C;');" class="legend">&#x1F98C;</td>
-          <td onclick="setIcon('&#x1F402;');" class="legend">&#x1F402;</td>
-          <td onclick="setIcon('');" class="legend">Remove</td>
-          <td style="width: 100px;"><input type="text" name="Icon_String" id="iconString" onBlur="setIcon('&#x' + this.value + ';');" maxlength="6" placeholder="ex 1F981"></td>
+    <tr>
+        <th>Preview</th>
+        <th colspan="6">Current Toolset</th>
+    </tr>
+    <tr>
+        <td id="previewBox"></td>
+        <td id="chosenIcon" onclick="setInputType('icon')"></td>
+        <td id="chosenColor1" onclick="setPrimaryColor(1);"></td>
+        <td id="chosenColor2" onclick="setPrimaryColor(2);" style="display: none;"></td>
+        <td id="degreesBox" style="display: none; width: 50px;"><input type="text" name="Degree_String" id="chosenDegrees" onBlur="setDegrees()" maxlength="3" style="width: 50px;"></td>
+        <td id="showMultipleColorOptions"><input type="button" value="Advanced" onclick="showHideMultipleColorOptions()"></td>
 
-      </tr>
-  </table>
-  <br />
+    </tr>
+</table>
 
-  <table>
-      <tr>
-          <th>Preview</th>
-          <th colspan="6">Current Toolset</th>
-      </tr>
-      <tr>
-          <td id="previewBox"></td>
-          <td id="chosenIcon" onclick="setInputType('icon')"></td>
-          <td id="chosenColor1" onclick="setPrimaryColor(1);"></td>
-          <td id="chosenColor2" onclick="setPrimaryColor(2);" style="display: none;"></td>
-          <td id="degreesBox" style="display: none; width: 50px;"><input type="text" name="Degree_String" id="chosenDegrees" onBlur="setDegrees()" maxlength="3" style="width: 50px;"></td>
-          <td id="showMultipleColorOptions"><input type="button" value="Advanced" onclick="showHideMultipleColorOptions()"></td>
+<table>
+    <tr>
+        <td><input type="button" value="Add Color" onclick="toggleTools('color')"></td>
+        <td><input type="button" value="Add Icon" onclick="toggleTools('icon')"></td>
+        <td><input type="button" value="Map Options" onclick="toggleTools('map')"></td>
+        <td><input type="button" value="Import/Export" onclick="toggleTools('export')"></td>
+    </tr>
+</table>
+<br />
 
-      </tr>
-  </table>
+<table id="colorTools" style="display: none;">
+    <tr onclick="setInputType('color');">
+        <td style="background-color: green;" onclick="setColor('green')" class="legend">Forest</td>
+        <td style="background-color: yellow;" onclick="setColor('yellow');" class="legend">Desert</td>
+        <td style="background-color: white;" onclick="setColor('white');" class="legend">Snow</td>
+        <td style="background-color: deepskyblue;" onclick="setColor('deepskyblue');" class="legend">Water</td>
+        <td style="background-color: lightgreen;" onclick="setColor('lightgreen');" class="legend">Plains</td>
+        <td style="background-color: saddlebrown;" onclick="setColor('saddlebrown');" class="legend">Mountains</td>
+    </tr>
+    <tr>
+        <td onclick="setColor('');" class="legend">Remove</td>
+        <td colspan="5"><input type="text" name="Color_String" id="colorString" onBlur="setColor('#' + this.value);" maxlength="6" placeholder="ex CFCFCF"></td>
+    </tr>
+</table>
+<table id="iconTools" style="display: none;">
+    <tr onclick="setInputType('icon');">
+        <td onclick="setIcon('&#x1F332;');" class="legend">&#x1F332;</td>
+        <td onclick="setIcon('&#x1F335;');" class="legend">&#x1F335;</td>
+        <td onclick="setIcon('&#x2744;');" class="legend">&#x2744;</td>
+        <td onclick="setIcon('&#x1F30A;');" class="legend">&#x1F30A;</td>
+        <td onclick="setIcon('&#x1F33E;');" class="legend">&#x1F33E;</td>
+        <td onclick="setIcon('&#x1F5FB;');" class="legend">&#x1F5FB;</td>
+    </tr>
+    <tr onclick="setInputType('icon');">
+        <td onclick="setIcon('&#x1F42F;');" class="legend">&#x1F42F;</td>
+        <td onclick="setIcon('&#x1F418;');" class="legend">&#x1F418;</td>
+        <td onclick="setIcon('&#x1F9DA;');" class="legend">&#x1F9DA;</td>
+        <td onclick="setIcon('&#x1F40E;');" class="legend">&#x1F40E;</td>
+        <td onclick="setIcon('&#x1F98C;');" class="legend">&#x1F98C;</td>
+        <td onclick="setIcon('&#x1F402;');" class="legend">&#x1F402;</td>
+    </tr>
+    <tr>
+        <td onclick="setIcon('');" class="legend">Remove</td>
+        <td colspan="5"><input type="text" name="Icon_String" id="iconString" onBlur="setIcon('&#x' + this.value + ';');" maxlength="6" placeholder="ex 1F981"></td>
 
-  <br />
+    </tr>
+</table>
+<br />
 
-  <table>
-      <tr>
-          <th>Map Location</th>
-          <th>Column Count</th>
-          <th>Row Count</th>
-      </tr>
-      <tr>
-          <td><input type="file" name="Map" id="map" onChange="readURL(this);"/></td>
-          <td><input type="text" name="Column_String" id="columnString" onBlur="setColumns()"></td>
-          <td><input type="text" name="Row_String" id="rowString" onBlur="setRows()"></td>
+<table id="mapTools" style="display: none;">
+    <tr>
+        <th>Map Location</th>
+        <th>Column Count</th>
+        <th>Row Count</th>
+    </tr>
+    <tr>
+        <td><input type="file" name="Map" id="map" onChange="readURL(this);"/></td>
+        <td><input type="text" name="Column_String" id="columnString" onBlur="setColumns()"></td>
+        <td><input type="text" name="Row_String" id="rowString" onBlur="setRows()"></td>
 
-      </tr>
-  </table>
+    </tr>
+</table>
 
-  <br />
-  <div>
-      <label for="Input_String">Export String</label>
-      <input type="text" name="Input_String" id="inputString" onBlur="importString()" style="width: 100%;">
-  </div>
-  <br />
+<br />
+<div id="exportTools" style="display: none;">
+    <label for="Input_String">Export String</label>
+    <input type="text" name="Input_String" id="inputString" onBlur="importString()" style="width: 100%;">
+</div>
+<br />
 
-  <div id="grid">
+<div id="grid">
 
-  </div>
+</div>
 
 </div>
 <script>
-  //var biome = '';
-  var inputType = '';
-  var color1 = '';
-  var color2 = '';
-  var degrees = '90';
-  var primaryColor = 1;
-  var icon = '';
-  var changeLog = {};
-  var newChangeLog = {};
-  var columnCount = 30;
-  var rowCount = 30;
-  var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
+    //var biome = '';
+    var inputType = '';
+    var color1 = '';
+    var color2 = '';
+    var degrees = '90';
+    var primaryColor = 1;
+    var icon = '';
+    var changeLog = {};
+    var newChangeLog = {};
+    var columnCount = 30;
+    var rowCount = 30;
+    var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
 
-  function displayCurrentToolset() {
-      document.getElementById('chosenColor1').style.background = this.color1;
-      document.getElementById('chosenColor2').style.background = this.color2;
-      document.getElementById('chosenDegrees').value = this.degrees;
-      document.getElementById('chosenIcon').innerHTML = this.icon;
-      document.getElementById('chosenColor1').style.borderColor = '';
-      document.getElementById('chosenColor2').style.borderColor = '';
-      document.getElementById('chosenIcon').style.borderColor = '';
+    function displayCurrentToolset() {
+        document.getElementById('chosenColor1').style.background = this.color1;
+        document.getElementById('chosenColor2').style.background = this.color2;
+        document.getElementById('chosenDegrees').value = this.degrees;
+        document.getElementById('chosenIcon').innerHTML = this.icon;
+        document.getElementById('chosenColor1').style.borderColor = '';
+        document.getElementById('chosenColor2').style.borderColor = '';
+        document.getElementById('chosenIcon').style.borderColor = '';
 
-      if (this.inputType == 'color') {
+        if (this.inputType == 'color') {
 
-          document.getElementById('chosenColor' + this.primaryColor).style.borderColor = '9ecaed';
-          document.getElementById('previewBox').innerHTML = '';
+            document.getElementById('chosenColor' + this.primaryColor).style.borderColor = '9ecaed';
+            document.getElementById('previewBox').innerHTML = '';
 
-          if (this.color2 == '' || this.color == this.color2) {
-              document.getElementById('previewBox').style.background = this.color1;
-          } else if (this.color1 == '' && this.color2 != '') {
-              document.getElementById('previewBox').style.background = this.color2;
-          } else {
-              document.getElementById('previewBox').style.background = 'linear-gradient(' + this.degrees + 'deg, ' + this.color1 + ' 50%, ' + this.color2 + ' 50%)';
-          }
+            if (this.color2 == '' || this.color == this.color2) {
+                document.getElementById('previewBox').style.background = this.color1;
+            } else if (this.color1 == '' && this.color2 != '') {
+                document.getElementById('previewBox').style.background = this.color2;
+            } else {
+                document.getElementById('previewBox').style.background = 'linear-gradient(' + this.degrees + 'deg, ' + this.color1 + ' 50%, ' + this.color2 + ' 50%)';
+            }
 
-      }
+        }
 
-      if (this.inputType == 'icon') {
-          document.getElementById('chosenIcon').style.borderColor = '9ecaed';
-          document.getElementById('previewBox').style.background = '';
-          document.getElementById('previewBox').innerHTML = this.icon;
-      }
+        if (this.inputType == 'icon') {
+            document.getElementById('chosenIcon').style.borderColor = '9ecaed';
+            document.getElementById('previewBox').style.background = '';
+            document.getElementById('previewBox').innerHTML = this.icon;
+        }
 
-      document.getElementById('inputString').value = JSON.stringify(this.changeLog);
+        document.getElementById('inputString').value = JSON.stringify(this.changeLog);
 
-  }
-  function setColor(choice) {
-      if (this.primaryColor == 1) {
-          this.color1 = choice;
-      } else {
-          this.color2 = choice;
-      }
+    }
+    function setColor(choice) {
+        if (this.primaryColor == 1) {
+            this.color1 = choice;
+        } else {
+            this.color2 = choice;
+        }
 
-      displayCurrentToolset();
-  }
-  function setIcon(choice) {
-      this.icon = choice;
-      displayCurrentToolset();
-  }
-  function setInputType(choice) {
-      this.inputType = choice;
-      displayCurrentToolset();
-  }
-  function setColumns() {
-      var columnValue = document.getElementById('columnString').value;
-      if (columnValue > 52) {
-          columnValue = 52;
-      }
-      this.columnCount = columnValue;
-      readURL(document.getElementById('map'));
-      renderTableGrid();
-      importString();
-  }
-  function setRows() {
-      var rowValue = document.getElementById('rowString').value;
-      if (rowValue > 52) {
-          rowValue = 52;
-      }
-      this.rowCount = rowValue;
-      readURL(document.getElementById('map'));
-      renderTableGrid();
-      importString();
-  }
-  function setDegrees() {
-      var degrees = document.getElementById('chosenDegrees').value;
-      if (degrees > 360) {
-          degrees = 360;
-      }
+        displayCurrentToolset();
+    }
+    function setIcon(choice) {
+        this.icon = choice;
+        displayCurrentToolset();
+    }
+    function setInputType(choice) {
+        this.inputType = choice;
+        displayCurrentToolset();
+    }
+    function setColumns() {
+        var columnValue = document.getElementById('columnString').value;
+        if (columnValue > 52) {
+            columnValue = 52;
+        }
+        this.columnCount = columnValue;
+        readURL(document.getElementById('map'));
+        renderTableGrid();
+        importString();
+    }
+    function setRows() {
+        var rowValue = document.getElementById('rowString').value;
+        if (rowValue > 52) {
+            rowValue = 52;
+        }
+        this.rowCount = rowValue;
+        readURL(document.getElementById('map'));
+        renderTableGrid();
+        importString();
+    }
+    function setDegrees() {
+        var degrees = document.getElementById('chosenDegrees').value;
+        if (degrees > 360) {
+            degrees = 360;
+        }
 
-      this.degrees = degrees;
+        this.degrees = degrees;
 
-      displayCurrentToolset();
-  }
-  function setPrimaryColor(number) {
-      this.primaryColor = number;
+        displayCurrentToolset();
+    }
+    function setPrimaryColor(number) {
+        this.primaryColor = number;
 
-      setInputType('color');
+        setInputType('color');
 
-      displayCurrentToolset();
-  }
-  function showHideMultipleColorOptions() {
-      document.getElementById('degreesBox').style.display = '';
-      document.getElementById('chosenColor2').style.display = '';
-      document.getElementById('showMultipleColorOptions').style.display = 'none';
-  }
-  function addToCell(coordinates) {
+        displayCurrentToolset();
+    }
+    function showHideMultipleColorOptions() {
+        document.getElementById('degreesBox').style.display = '';
+        document.getElementById('chosenColor2').style.display = '';
+        document.getElementById('showMultipleColorOptions').style.display = 'none';
+    }
+    function toggleTools(choice) {
+        document.getElementById('colorTools').style.display = 'none';
+        document.getElementById('iconTools').style.display = 'none';
+        document.getElementById('mapTools').style.display = 'none';
+        document.getElementById('exportTools').style.display = 'none';
 
-      if (!this.changeLog[coordinates]) {
-          this.changeLog[coordinates] = {};
-      }
+        document.getElementById(choice + 'Tools').style.display = '';
+    }
+    function addToCell(coordinates) {
 
-      if (this.inputType == 'color') {
+        if (!this.changeLog[coordinates]) {
+            this.changeLog[coordinates] = {};
+        }
 
-          if (this.color2 == '' || this.color == this.color2) {
-              this.changeLog[coordinates].color1 = this.color1;
-              document.getElementById(coordinates).style.background = this.color1;
-          } else if (this.color1 == '' && this.color2 != '') {
-              this.changeLog[coordinates].color1 = this.color2;
-              document.getElementById(coordinates).style.background = this.color2;
-          } else {
-              this.changeLog[coordinates].color1 = this.color1;
-              this.changeLog[coordinates].color2 = this.color2;
-              this.changeLog[coordinates].degrees = this.degrees;
-              document.getElementById(coordinates).style.background = 'linear-gradient(' + this.degrees + 'deg, ' + this.color1 + ' 50%, ' + this.color2 + ' 50%)';
-          }
+        if (this.inputType == 'color') {
+
+            if (this.color2 == '' || this.color == this.color2) {
+                this.changeLog[coordinates].color1 = this.color1;
+                document.getElementById(coordinates).style.background = this.color1;
+            } else if (this.color1 == '' && this.color2 != '') {
+                this.changeLog[coordinates].color1 = this.color2;
+                document.getElementById(coordinates).style.background = this.color2;
+            } else {
+                this.changeLog[coordinates].color1 = this.color1;
+                this.changeLog[coordinates].color2 = this.color2;
+                this.changeLog[coordinates].degrees = this.degrees;
+                document.getElementById(coordinates).style.background = 'linear-gradient(' + this.degrees + 'deg, ' + this.color1 + ' 50%, ' + this.color2 + ' 50%)';
+            }
 
 
-      }
+        }
 
-      if (this.inputType == 'icon') {
-          this.changeLog[coordinates].icon = this.icon;
-          document.getElementById(coordinates).innerHTML = this.icon;
-      }
+        if (this.inputType == 'icon') {
+            this.changeLog[coordinates].icon = this.icon;
+            document.getElementById(coordinates).innerHTML = this.icon;
+        }
 
-      document.getElementById('inputString').value = JSON.stringify(this.changeLog);
-  }
-  function importString() {
+        document.getElementById('inputString').value = JSON.stringify(this.changeLog);
+    }
+    function importString() {
 
-      var string = document.getElementById('inputString').value;
-      this.changeLog = JSON.parse(string);
+        var string = document.getElementById('inputString').value;
+        this.changeLog = JSON.parse(string);
 
-      document.getElementById('inputString').value = JSON.stringify(this.changeLog);
+        document.getElementById('inputString').value = JSON.stringify(this.changeLog);
 
-      for (var key in this.changeLog) {
-          if (this.changeLog.hasOwnProperty(key)) {
+        for (var key in this.changeLog) {
+            if (this.changeLog.hasOwnProperty(key)) {
 
-              if (!this.changeLog[key].color2 || this.changeLog[key].color2 == '' || this.changeLog[key].color1 == this.changeLog[key].color2) {
-                  document.getElementById(key).style.background = this.changeLog[key].color1;
-              } else {
-                  document.getElementById(key).style.background = 'linear-gradient(' + this.changeLog[key].degrees + 'deg, ' + this.changeLog[key].color1 + ' 50%, ' + this.changeLog[key].color2 + ' 50%)';
-              }
+                if (!this.changeLog[key].color2 || this.changeLog[key].color2 == '' || this.changeLog[key].color1 == this.changeLog[key].color2) {
+                    document.getElementById(key).style.background = this.changeLog[key].color1;
+                } else {
+                    document.getElementById(key).style.background = 'linear-gradient(' + this.changeLog[key].degrees + 'deg, ' + this.changeLog[key].color1 + ' 50%, ' + this.changeLog[key].color2 + ' 50%)';
+                }
 
-              if (this.changeLog[key].icon) {
-                  document.getElementById(key).innerHTML = this.changeLog[key].icon;
-              }
-          }
-      }
-  }
-  function renderTableGrid() {
-      var gridArea = document.getElementById('grid');
-      var table = document.createElement('table');
-      table.setAttribute('id', 'gridTable');
-      table.setAttribute('cellspacing', '0 px');
-      table.setAttribute('cellpadding', '0 px');
-      var headerRow = document.createElement('tr');
-      headerRow.appendChild(document.createElement('th'));
+                if (this.changeLog[key].icon) {
+                    document.getElementById(key).innerHTML = this.changeLog[key].icon;
+                }
+            }
+        }
+    }
+    function renderTableGrid() {
+        var gridArea = document.getElementById('grid');
+        var table = document.createElement('table');
+        table.setAttribute('id', 'gridTable');
+        table.setAttribute('cellspacing', '0 px');
+        table.setAttribute('cellpadding', '0 px');
+        var headerRow = document.createElement('tr');
+        headerRow.appendChild(document.createElement('th'));
 
-      for (var i = 0; i < this.columnCount; i++){
-          var tableHeader = document.createElement('th');
-          tableHeader.innerHTML = this.columnNames[i];
+        for (var i = 0; i < this.columnCount; i++){
+            var tableHeader = document.createElement('th');
+            tableHeader.innerHTML = this.columnNames[i];
 
-          headerRow.appendChild(tableHeader);
-          table.appendChild(headerRow);
-      }
+            headerRow.appendChild(tableHeader);
+            table.appendChild(headerRow);
+        }
 
-      for (var i = 1; i <= this.rowCount; i++){
-          var newRow = document.createElement('tr');
-          var cell = document.createElement('td');
-          cell.innerHTML = i;
-          newRow.appendChild(cell);
+        for (var i = 1; i <= this.rowCount; i++){
+            var newRow = document.createElement('tr');
+            var cell = document.createElement('td');
+            cell.innerHTML = i;
+            newRow.appendChild(cell);
 
-          for (var j = 0; j < this.columnCount; j++){
-              var newCell = document.createElement('td');
-              var coords = this.columnNames[j] + ',' + i;
-              newCell.setAttribute('id', coords);
-              newCell.setAttribute('onClick', "addToCell('" + coords + "')");
+            for (var j = 0; j < this.columnCount; j++){
+                var newCell = document.createElement('td');
+                var coords = this.columnNames[j] + ',' + i;
+                newCell.setAttribute('id', coords);
+                newCell.setAttribute('onClick', "addToCell('" + coords + "')");
 
-              newRow.appendChild(newCell);
-          }
+                newRow.appendChild(newCell);
+            }
 
-          table.appendChild(newRow);
+            table.appendChild(newRow);
 
-      }
+        }
 
-      displayCurrentToolset();
-      document.getElementById('columnString').value = this.columnCount;
-      document.getElementById('rowString').value = this.rowCount;
+        displayCurrentToolset();
+        document.getElementById('columnString').value = this.columnCount;
+        document.getElementById('rowString').value = this.rowCount;
 
-      gridArea.removeChild(gridArea.childNodes[0]);
-      gridArea.appendChild(table);
+        gridArea.removeChild(gridArea.childNodes[0]);
+        gridArea.appendChild(table);
 
-  }
+    }
 
-  function readURL(input) {
-      if (input.files && input.files[0]) {
-          var reader = new FileReader();
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
 
-          reader.onload = function (e) {
-              document.getElementById('gridTable').setAttribute('background', e.target.result);
-              document.getElementById('gridTable').style.width = 'auto';
-              document.getElementById('gridTable').style.height = 'auto';
-          };
+            reader.onload = function (e) {
+                document.getElementById('gridTable').setAttribute('background', e.target.result);
+                document.getElementById('gridTable').style.width = 'auto';
+                document.getElementById('gridTable').style.height = 'auto';
+            };
 
-          reader.readAsDataURL(input.files[0]);
-      }
-  }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
 
-  renderTableGrid();
+    renderTableGrid();
 </script>
 </body>
 </html>
