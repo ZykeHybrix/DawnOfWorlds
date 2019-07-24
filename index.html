@@ -1,8 +1,12 @@
 <html>
 <head>
+  <title>Dawn of Worlds</title>
 </head>
 <body>
 <style>
+  body {
+      background-color: light-blue;
+  }
   th, td {
       border: 1px solid black;
       height: 40px;
@@ -57,7 +61,6 @@
       </tr>
       <tr>
           <td id="previewBox"></td>
-          {{--<td id="primaryColor" style="display: none;"></td>--}}
           <td id="chosenIcon" onclick="setInputType('icon')"></td>
           <td id="chosenColor1" onclick="setPrimaryColor(1);"></td>
           <td id="chosenColor2" onclick="setPrimaryColor(2);" style="display: none;"></td>
@@ -110,7 +113,6 @@
   var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
 
   function displayCurrentToolset() {
-      //document.getElementById('primaryColor').innerHTML = this.primaryColor;
       document.getElementById('chosenColor1').style.background = this.color1;
       document.getElementById('chosenColor2').style.background = this.color2;
       document.getElementById('chosenDegrees').value = this.degrees;
@@ -198,7 +200,6 @@
       displayCurrentToolset();
   }
   function showHideMultipleColorOptions() {
-      //document.getElementById('primaryColor').style.display = '';
       document.getElementById('degreesBox').style.display = '';
       document.getElementById('chosenColor2').style.display = '';
       document.getElementById('showMultipleColorOptions').style.display = 'none';
