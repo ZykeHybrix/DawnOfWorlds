@@ -25,7 +25,10 @@
 <table>
     <tr>
         <th>Preview</th>
-        <th colspan="6">Current Toolset</th>
+        <th>Icon</th>
+        <th>Color 1</th>
+        <th id="color2Header" style="display: none;">Color 2</th>
+        <th id="degreesHeader" style="display: none;">Degrees</th>
     </tr>
     <tr>
         <td id="previewBox"></td>
@@ -215,6 +218,8 @@
         displayCurrentToolset();
     }
     function showHideMultipleColorOptions() {
+        document.getElementById('degreesHeader').style.display = '';
+        document.getElementById('color2Header').style.display = '';
         document.getElementById('degreesBox').style.display = '';
         document.getElementById('chosenColor2').style.display = '';
         document.getElementById('showMultipleColorOptions').style.display = 'none';
