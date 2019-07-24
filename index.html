@@ -60,7 +60,7 @@
         <td style="background-color: lightgreen;" onclick="setColor('lightgreen');" class="legend">Plains</td>
         <td style="background-color: saddlebrown;" onclick="setColor('saddlebrown');" class="legend">Mountains</td>
     </tr>
-    <tr>
+    <tr onclick="setInputType('color');">
         <td onclick="setColor('');" class="legend">Remove</td>
         <td colspan="5"><input type="text" name="Color_String" id="colorString" onBlur="setColor('#' + this.value);" maxlength="6" placeholder="ex CFCFCF"></td>
     </tr>
@@ -90,9 +90,10 @@
         <td onclick="setIcon('&#x1F3F0;');" class="legend">&#x1F3F0;</td>
         <td onclick="setIcon('&#x1F3E2;');" class="legend">&#x1F3E2;</td>
     </tr>
-    <tr>
+    <tr onclick="setInputType('icon');">
         <td onclick="setIcon('');" class="legend">Remove</td>
-        <td colspan="5"><input type="text" name="Icon_String" id="iconString" onBlur="setIcon('&#x' + this.value + ';');" maxlength="6" placeholder="ex 1F981"></td>
+        <td colspan="3"><input type="text" name="Icon_String" id="iconString" onBlur="setIcon('&#x' + this.value + ';');" maxlength="6" placeholder="ex 1F981"  style="width: 70px;"></td>
+        <td colspan="2"><input type="text" name="Icon_String2" id="iconString2" onBlur="setIcon(this.value);" maxlength="1" placeholder="ex &#x1F981;" style="width: 50px;"></td>
 
     </tr>
 </table>
