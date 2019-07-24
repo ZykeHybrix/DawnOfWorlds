@@ -134,8 +134,8 @@
     var icon = '';
     var changeLog = {};
     var newChangeLog = {};
-    var columnCount = 30;
-    var rowCount = 30;
+    var columnCount = 36;
+    var rowCount = 26;
     var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
 
     function displayCurrentToolset() {
@@ -194,7 +194,7 @@
             columnValue = 52;
         }
         this.columnCount = columnValue;
-        readURL(document.getElementById('map'));
+        //readURL(document.getElementById('map'));
         renderTableGrid();
         importString();
     }
@@ -204,7 +204,7 @@
             rowValue = 52;
         }
         this.rowCount = rowValue;
-        readURL(document.getElementById('map'));
+        //readURL(document.getElementById('map'));
         renderTableGrid();
         importString();
     }
@@ -337,6 +337,9 @@
         gridArea.removeChild(gridArea.childNodes[0]);
         gridArea.appendChild(table);
 
+        readURL(document.getElementById('map'));
+
+
     }
 
     function readURL(input) {
@@ -350,6 +353,10 @@
             };
 
             reader.readAsDataURL(input.files[0]);
+        } else {
+            document.getElementById('gridTable').setAttribute('background', 'https://zykehybrix.github.io/DawnOfWorlds/Map.jpg');
+            document.getElementById('gridTable').style.width = 'auto';
+            document.getElementById('gridTable').style.height = 'auto';
         }
     }
 
