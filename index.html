@@ -23,6 +23,7 @@
         -moz-user-select: none;
         -ms-user-select: none;
         user-select: none;
+        opacity: .75;
     }
     th, td {
         border: 1px solid black;
@@ -193,6 +194,7 @@
                 document.getElementById('previewBox').style.background = this.color2;
             } else {
                 document.getElementById('previewBox').style.background = 'linear-gradient(' + this.degrees + 'deg, ' + this.color1 + ' 50%, ' + this.color2 + ' 50%)';
+                //document.getElementById('previewBox').style.background = 'linear-gradient(' + this.degrees + 'deg, ' +  'rgba(255,255,0,.6) 50%, ' + 'rgba(255,255,0,.6) 50%)';
             }
 
         }
@@ -300,6 +302,8 @@
                 this.changeLog[coordinates].color2 = this.color2;
                 this.changeLog[coordinates].degrees = this.degrees;
                 document.getElementById(coordinates).style.background = 'linear-gradient(' + this.degrees + 'deg, ' + this.color1 + ' 50%, ' + this.color2 + ' 50%)';
+                //document.getElementById(coordinates).style.background = 'linear-gradient(' + this.degrees + 'deg, ' +  'rgba(255,255,0,.6) 50%, ' + 'rgba(0,255,255,.6) 50%)';
+
             }
 
 
@@ -477,7 +481,6 @@
         gridArea.appendChild(table);
 
         readURL(document.getElementById('map'));
-
 
     }
 
