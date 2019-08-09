@@ -64,7 +64,6 @@
         <td><input type="button" value="Import/Export" onclick="toggleTools('export')"></td>
     </tr>
 </table>
-<br />
 
 <table id="colorTools" style="display: none;">
     <tr onclick="setInputType('color');">
@@ -80,6 +79,7 @@
         <td colspan="5"><input type="text" name="Color_String" id="colorString" onBlur="setColor('#' + this.value);" maxlength="6" placeholder="ex CFCFCF"></td>
     </tr>
 </table>
+
 <table id="iconTools" style="display: none;">
     <tr onclick="setInputType('icon');">
         <td onclick="setIcon('&#x1F332;');" class="legend">&#x1F332;</td>
@@ -111,7 +111,6 @@
         <td colspan="2"><input type="text" name="Icon_String2" id="iconString2" onBlur="setIcon(this.value);" maxlength="1" placeholder="ex &#x1F981;" style="width: 50px;"></td>
     </tr>
 </table>
-<br />
 
 <table id="mapTools" style="display: none;">
     <tr>
@@ -127,12 +126,16 @@
     </tr>
 </table>
 
-<br />
-<div id="exportTools" style="display: none;">
-    <label for="Input_String">Import/Export String</label>
-    <input type="text" name="Input_String" id="inputString" onBlur="importString()" style="width: 100%;">
-</div>
-<br />
+<table id="exportTools" style="display: none;" style="width: 100%">
+    <tr>
+        <th>Import/Export String</th>
+    </tr>
+    <tr>
+        <td>
+            <input type="text" name="Input_String" id="inputString" onBlur="importString()" style="width: 100%;">
+        </td>
+    </tr>
+</table>
 
 <div id="pointsTools" style="display: none;"></div>
 
@@ -152,7 +155,7 @@
     var columnCount = 36;
     var rowCount = 26;
     var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
-    var powerNames2 = ['Shape Land, 1"', 'Shape Climate, 1"', 'Create Race', 'Create Subrace', 'Command Race**', 'Command City**', 'Advance Civilization', 'Advance City', 'Purify Civilization, +1 Alignment*', 'Corrupt Civilization, -1 Alignment*', 'Purify City, +1 Alignment*', 'Corrupt City, -1 Alignment*', 'Event', 'Create Order', 'Command Order', 'Create Avatar', 'Command Avatar', 'Catastrophe, 1"'];
+    //var powerNames2 = ['Shape Land, 1"', 'Shape Climate, 1"', 'Create Race', 'Create Subrace', 'Command Race**', 'Command City**', 'Advance Civilization', 'Advance City', 'Purify Civilization, +1 Alignment*', 'Corrupt Civilization, -1 Alignment*', 'Purify City, +1 Alignment*', 'Corrupt City, -1 Alignment*', 'Event', 'Create Order', 'Command Order', 'Create Avatar', 'Command Avatar', 'Catastrophe, 1"'];
     var powerNames = [{'Shape Land, 1"' : [3, 5, 8]}, {'Shape Climate, 1"' : [2, 4, 6]}, {'Create Race' : [22, 6, 15]}, {'Create Subrace' : [12, 4, 10]}, {'Command Race**' : [8, 4, 3]}, {'Command City**' : [6, 4, 2]}, {'Advance Civilization' : [10, 5, 6]}, {'Advance City' : [8, 4, 5]}, {'Purify Civilization, +1 Alignment*' : [5, 3, 4]}, {'Corrupt Civilization, -1 Alignment*' : [4, 3, 3]}, {'Purify City, +1 Alignment*' : [4, 3, 3]}, {'Corrupt City, -1 Alignment*' : [3, 2, 2]}, {'Event' : [10, 7, 9]}, {'Create Order' : [8, 6, 4]}, {'Command Order': [4, 3, 2]}, {'Create Avatar' : [10, 7, 8]}, {'Command Avatar' : [2, 1, 1]}, {'Catastrophe, 1"' : [10, 10, 10]}];
     var currentAge = 2;
 
@@ -253,13 +256,18 @@
         document.getElementById('showMultipleColorOptions').style.display = 'none';
     }
     function toggleTools(choice) {
+        var current = document.getElementById(choice + 'Tools').style.display;
+
         document.getElementById('colorTools').style.display = 'none';
         document.getElementById('iconTools').style.display = 'none';
         document.getElementById('pointsTools').style.display = 'none';
         document.getElementById('mapTools').style.display = 'none';
         document.getElementById('exportTools').style.display = 'none';
-
         document.getElementById(choice + 'Tools').style.display = '';
+
+        if (current != 'none') {
+            document.getElementById(choice + 'Tools').style.display = 'none';
+        }
     }
     function addToCell(coordinates) {
 
@@ -321,6 +329,55 @@
         var headerRow = document.createElement('tr');
         var tableHeader1 = document.createElement('th');
         tableHeader1.innerHTML = 'Power';
+        headerRow.appendChild(tableHeader1);
+
+        this.powerNames.forEach(function(e) {
+            var tableHeader = document.createElement('th');
+
+            var name = Object.keys(e)[0];
+            tableHeader.innerHTML = name;
+            headerRow.appendChild(tableHeader);
+        });
+
+        table.appendChild(headerRow);
+
+        for (var i = 0; i < 3; i++){
+
+            var newRow = document.createElement('tr');
+            var tableHeader2 = document.createElement('th');
+            if (i == 0) {
+                tableHeader2.innerHTML = '1st Age - Land';
+            }
+            else if (i == 1) {
+                tableHeader2.innerHTML = '2nd Age - Races';
+            }
+            else if (i == 2) {
+                tableHeader2.innerHTML = '3rd Age - Relations';
+            }
+
+            newRow.appendChild(tableHeader2);
+
+            this.powerNames.forEach(function(e) {
+                var name = Object.keys(e)[0];
+                var pointArray = e[name];
+                var cell1 = document.createElement('td');
+                cell1.innerHTML = pointArray[i];
+                newRow.appendChild(cell1);
+
+                table.appendChild(newRow);
+            });
+        }
+
+        pointTools.appendChild(table);
+    }
+    /*
+    function renderPointsTable2() {
+        var pointTools = document.getElementById('pointsTools');
+        var table = document.createElement('table');
+
+        var headerRow = document.createElement('tr');
+        var tableHeader1 = document.createElement('th');
+        tableHeader1.innerHTML = 'Power';
         var tableHeader2 = document.createElement('th');
         tableHeader2.innerHTML = '1st Age - Land';
         var tableHeader3 = document.createElement('th');
@@ -353,6 +410,7 @@
 
         pointTools.appendChild(table);
     }
+    */
     function renderTableGrid() {
         var gridArea = document.getElementById('grid');
         var table = document.createElement('table');
