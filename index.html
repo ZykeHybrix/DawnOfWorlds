@@ -323,7 +323,6 @@
 
             }
 
-
         }
 
         if (this.inputType == 'icon') {
@@ -348,15 +347,25 @@
         for (var key in this.changeLog) {
             if (this.changeLog.hasOwnProperty(key)) {
 
-                if (!this.changeLog[key].color2 || this.changeLog[key].color2 == '' || this.changeLog[key].color1 == this.changeLog[key].color2) {
-                    document.getElementById(key).style.background = this.changeLog[key].color1;
-                } else {
-                    document.getElementById(key).style.background = 'linear-gradient(' + this.changeLog[key].degrees + 'deg, ' + this.changeLog[key].color1 + ' 50%, ' + this.changeLog[key].color2 + ' 50%)';
+                if (this.changeLog[key].icon) {
+                    this.icon = this.changeLog[key].icon;
+                    this.inputType = 'icon';
+                    addToCell(key);
                 }
 
-                if (this.changeLog[key].icon) {
-                    document.getElementById(key).innerHTML = this.changeLog[key].icon;
+                this.inputType = 'color';
+
+                if (this.changeLog[key].color1) {
+                    this.color1 = this.changeLog[key].color1;
                 }
+                if (this.changeLog[key].color2) {
+                    this.color2 = this.changeLog[key].color2;
+                }
+                if (this.changeLog[key].degrees) {
+                    this.degrees = this.changeLog[key].degrees;
+                }
+                addToCell(key);
+
             }
         }
     }
