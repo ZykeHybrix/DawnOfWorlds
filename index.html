@@ -173,6 +173,27 @@
     document.body.onmouseup = function() {
         mouseDown = 0;
     };
+    addEventListener("touchstart", function(event){
+        mouseDown = 1;
+        console.log('down fired');
+        //event.target.classList.add('down');
+    }, true);
+    addEventListener("touchend", function(event){
+        mouseDown = 0;
+        console.log('down ended');
+        //event.target.classList.add('down');
+    }, true);
+    addEventListener("touchmove", function(event){
+        if (mouseDown == 1) {
+            var xcoord = event.touches ? event.touches[0].pageX : event.pageX;
+            var ycoord = event.touches ? event.touches[0].pageY : event.pageY;
+            var targetElement = document.elementFromPoint(xcoord, ycoord);
+            var targetCoordinates = targetElement.id;
+
+            paintToCell(targetCoordinates);
+        }
+
+    }, true);
 
     function displayCurrentToolset() {
         document.getElementById('chosenColor1').style.background = this.color1;
@@ -317,6 +338,7 @@
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
     }
     function paintToCell(coordinates) {
+        console.log(coordinates, mouseDown);
         if (mouseDown) {
             addToCell(coordinates);
         }
