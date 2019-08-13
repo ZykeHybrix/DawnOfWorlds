@@ -68,7 +68,7 @@
     <tr>
         <td><input type="button" value="Add Color" onclick="toggleTools('color')"></td>
         <td><input type="button" value="Add Icon" onclick="toggleTools('icon')"></td>
-        <td><input type="button" value="Add Note" onclick="toggleTools('note')"></td>
+        <td><input type="button" value="Add/View Notes" onclick="toggleTools('note')"></td>
         <td><input type="button" value="Point Costs" onclick="toggleTools('points')"></td>
         <td><input type="button" value="Map Options" onclick="toggleTools('map')"></td>
         <td><input type="button" value="Import/Export" onclick="toggleTools('export')"></td>
@@ -130,6 +130,9 @@
         <td style="width: 800px;">
             <input type="text" name="Note_String" id="noteString" onBlur="setNote(); setInputType('note');" style="width: 100%;">
         </td>
+    </tr>
+    <tr>
+        <th>View Notes</th>
     </tr>
 </table>
 
@@ -442,6 +445,12 @@
         if (this.inputType == 'note') {
             this.changeLog[coordinates].note = this.note;
             document.getElementById(coordinates).title = this.note;
+            var noteTable = document.getElementById('noteTools');
+            var newNoteRow = document.createElement('tr');
+            var newNote = document.createElement('td');
+            newNote.innerHTML = coordinates + ' : ' + this.note;
+            newNoteRow.appendChild(newNote);
+            noteTable.appendChild(newNoteRow);
         }
 
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
