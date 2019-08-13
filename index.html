@@ -243,6 +243,10 @@
             document.getElementById('previewBox').innerHTML = 'Fill';
         }
 
+        if (this.inputType == 'note') {
+            document.getElementById('previewBox').innerHTML = 'Note';
+        }
+
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
 
     }
