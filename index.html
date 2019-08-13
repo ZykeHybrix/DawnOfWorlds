@@ -50,6 +50,7 @@
         <th>Color 1</th>
         <th id="color2Header" style="display: none;">Color 2</th>
         <th id="degreesHeader" style="display: none;">Degrees</th>
+        <th id="fillHeader" style="display: none;">Fill</th>
     </tr>
     <tr>
         <td id="previewBox"></td>
@@ -57,6 +58,7 @@
         <td id="chosenColor1" onclick="setPrimaryColor(1);"></td>
         <td id="chosenColor2" onclick="setPrimaryColor(2);" style="display: none;"></td>
         <td id="degreesBox" style="display: none; width: 50px;"><input type="text" name="Degree_String" id="chosenDegrees" onBlur="setDegrees()" maxlength="3" style="width: 50px;"></td>
+        <td id="toggleFill" style="display: none;"><input type="button" value="Toggle Fill" onclick="setInputType('fill')"></td>
         <td id="showMultipleColorOptions"><input type="button" value="Advanced" onclick="showHideMultipleColorOptions()"></td>
 
     </tr>
@@ -222,6 +224,10 @@
             document.getElementById('previewBox').innerHTML = this.icon;
         }
 
+        if (this.inputType == 'fill') {
+            document.getElementById('previewBox').innerHTML = 'Fill';
+        }
+
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
 
     }
@@ -239,7 +245,13 @@
         displayCurrentToolset();
     }
     function setInputType(choice) {
-        this.inputType = choice;
+
+        if (choice == 'fill' && this.inputType == 'fill') {
+            this.inputType = 'color';
+        } else {
+            this.inputType = choice;
+        }
+
         displayCurrentToolset();
     }
     function setColumns() {
@@ -282,8 +294,11 @@
     function showHideMultipleColorOptions() {
         document.getElementById('degreesHeader').style.display = '';
         document.getElementById('color2Header').style.display = '';
+        document.getElementById('fillHeader').style.display = '';
+
         document.getElementById('degreesBox').style.display = '';
         document.getElementById('chosenColor2').style.display = '';
+        document.getElementById('toggleFill').style.display = '';
         document.getElementById('showMultipleColorOptions').style.display = 'none';
     }
     function toggleTools(choice) {
@@ -304,6 +319,62 @@
 
         if (!this.changeLog[coordinates]) {
             this.changeLog[coordinates] = {};
+        }
+
+        if (this.inputType == 'fill') {
+
+            if (changeLog[coordinates] && changeLog[coordinates].color1) {
+
+                return;
+            }
+
+            var coordinatesArray = coordinates.split(',');
+            var xCoordinate = coordinatesArray[0];
+            var yCoordinate = coordinatesArray[1];
+            var xKey = columnNames.findIndex(value => value === xCoordinate);
+
+            this.inputType = 'color';
+
+            addToCell(coordinates);
+
+            this.inputType = 'fill';
+
+            //checkLeft
+            if (xKey - 1 >= 0) {
+
+                var newXCoordinate = columnNames[xKey - 1];
+                var newCoordinates = newXCoordinate + ',' + yCoordinate;
+
+                addToCell(newCoordinates);
+            }
+
+            //checkRight
+            if (xKey + 1 < this.columnCount) {
+
+                var newXCoordinate = columnNames[xKey + 1];
+                var newCoordinates = newXCoordinate + ',' + yCoordinate;
+
+                addToCell(newCoordinates);
+            }
+
+            //checkUp
+            if (parseInt(yCoordinate, 10) - 1 > 0) {
+
+                var newYCoordinate = parseInt(yCoordinate, 10) - 1;
+                var newCoordinates = xCoordinate + ',' + newYCoordinate;
+
+                addToCell(newCoordinates);
+            }
+
+            //checkDown
+            if (parseInt(yCoordinate, 10) + 1 <= this.rowCount) {
+
+                var newYCoordinate = parseInt(yCoordinate, 10) + 1;
+                var newCoordinates = xCoordinate + ',' + newYCoordinate;
+
+                addToCell(newCoordinates);
+            }
+
         }
 
         if (this.inputType == 'color') {
