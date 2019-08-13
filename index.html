@@ -9,8 +9,8 @@
     }
     #gridTable th, #gridTable td {
         border: 1px solid lightblue;
-        height: 40px;
-        width: 40px;
+/*        height: 40px;
+        width: 40px;*/
         /*padding: 15px;*/
         font-family: "Courier New";
         text-align: center;
@@ -68,6 +68,7 @@
     <tr>
         <td><input type="button" value="Add Color" onclick="toggleTools('color')"></td>
         <td><input type="button" value="Add Icon" onclick="toggleTools('icon')"></td>
+        <td><input type="button" value="Add Note" onclick="toggleTools('note')"></td>
         <td><input type="button" value="Point Costs" onclick="toggleTools('points')"></td>
         <td><input type="button" value="Map Options" onclick="toggleTools('map')"></td>
         <td><input type="button" value="Import/Export" onclick="toggleTools('export')"></td>
@@ -121,16 +122,29 @@
     </tr>
 </table>
 
+<table id="noteTools" style="display: none;">
+    <tr>
+        <th>Add a Note</th>
+    </tr>
+    <tr>
+        <td style="width: 800px;">
+            <input type="text" name="Note_String" id="noteString" onBlur="setNote(); setInputType('note');" style="width: 100%;">
+        </td>
+    </tr>
+</table>
+
 <table id="mapTools" style="display: none;">
     <tr>
         <th>Map Location</th>
         <th>Column Count</th>
         <th>Row Count</th>
+        <th>Grid Size</th>
     </tr>
     <tr>
         <td><input type="file" name="Map" id="map" onChange="readURL(this);"/></td>
         <td><input type="text" name="Column_String" id="columnString" onBlur="setColumns()"></td>
         <td><input type="text" name="Row_String" id="rowString" onBlur="setRows()"></td>
+        <td><input type="text" name="Grid_String" id="gridString" onBlur="setGridSize()"></td>
 
     </tr>
 </table>
@@ -161,8 +175,9 @@
     var icon = '';
     var changeLog = {};
     var newChangeLog = {};
-    var columnCount = 36;
-    var rowCount = 26;
+    var columnCount = 52;
+    var rowCount = 42;
+    var gridSize = 25;
     var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
     //var powerNames2 = ['Shape Land, 1"', 'Shape Climate, 1"', 'Create Race', 'Create Subrace', 'Command Race**', 'Command City**', 'Advance Civilization', 'Advance City', 'Purify Civilization, +1 Alignment*', 'Corrupt Civilization, -1 Alignment*', 'Purify City, +1 Alignment*', 'Corrupt City, -1 Alignment*', 'Event', 'Create Order', 'Command Order', 'Create Avatar', 'Command Avatar', 'Catastrophe, 1"'];
     var powerNames = [{'Shape Land, 1"' : [3, 5, 8]}, {'Shape Climate, 1"' : [2, 4, 6]}, {'Create Race' : [22, 6, 15]}, {'Create Subrace' : [12, 4, 10]}, {'Command Race**' : [8, 4, 3]}, {'Command City**' : [6, 4, 2]}, {'Advance Civilization' : [10, 5, 6]}, {'Advance City' : [8, 4, 5]}, {'Purify Civilization, +1 Alignment*' : [5, 3, 4]}, {'Corrupt Civilization, -1 Alignment*' : [4, 3, 3]}, {'Purify City, +1 Alignment*' : [4, 3, 3]}, {'Corrupt City, -1 Alignment*' : [3, 2, 2]}, {'Event' : [10, 7, 9]}, {'Create Order' : [8, 6, 4]}, {'Command Order': [4, 3, 2]}, {'Create Avatar' : [10, 7, 8]}, {'Command Avatar' : [2, 1, 1]}, {'Catastrophe, 1"' : [10, 10, 10]}];
@@ -244,6 +259,11 @@
         this.icon = choice;
         displayCurrentToolset();
     }
+    function setNote() {
+        var note = document.getElementById('noteString').value;
+
+        this.note = note;
+    }
     function setInputType(choice) {
 
         if (choice == 'fill' && this.inputType == 'fill') {
@@ -271,6 +291,18 @@
         }
         this.rowCount = rowValue;
         //readURL(document.getElementById('map'));
+        renderTableGrid();
+        importString();
+    }
+    function setGridSize() {
+        var gridValue = document.getElementById('gridString').value;
+
+        if (gridValue < 20) {
+            gridValue = 20;
+        }
+
+        this.gridSize = gridValue;
+
         renderTableGrid();
         importString();
     }
@@ -306,6 +338,7 @@
 
         document.getElementById('colorTools').style.display = 'none';
         document.getElementById('iconTools').style.display = 'none';
+        document.getElementById('noteTools').style.display = 'none';
         document.getElementById('pointsTools').style.display = 'none';
         document.getElementById('mapTools').style.display = 'none';
         document.getElementById('exportTools').style.display = 'none';
@@ -401,6 +434,11 @@
             document.getElementById(coordinates).innerHTML = this.icon;
         }
 
+        if (this.inputType == 'note') {
+            this.changeLog[coordinates].note = this.note;
+            document.getElementById(coordinates).title = this.note;
+        }
+
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
     }
     function paintToCell(coordinates) {
@@ -424,6 +462,12 @@
                     addToCell(key);
                 }
 
+                if (this.changeLog[key].note) {
+                    this.note = this.changeLog[key].note;
+                    this.inputType = 'note';
+                    addToCell(key);
+                }
+
                 this.inputType = 'color';
 
                 if (this.changeLog[key].color1) {
@@ -439,6 +483,7 @@
 
             }
         }
+
     }
     function renderPointsTable() {
         var pointTools = document.getElementById('pointsTools');
@@ -533,15 +578,17 @@
         var gridArea = document.getElementById('grid');
         var table = document.createElement('table');
         table.setAttribute('id', 'gridTable');
-        table.setAttribute('cellspacing', '0 px');
-        table.setAttribute('cellpadding', '0 px');
-        table.style.minWidth = this.columnCount * 40 + 'px';
+        table.setAttribute('cellspacing', '0px');
+        table.setAttribute('cellpadding', '0px');
+        table.style.minWidth = this.columnCount * this.gridSize + 'px';
         var headerRow = document.createElement('tr');
         headerRow.appendChild(document.createElement('th'));
 
         for (var i = 0; i < this.columnCount; i++){
             var tableHeader = document.createElement('th');
             tableHeader.innerHTML = this.columnNames[i];
+            tableHeader.style.width = this.gridSize + 'px';
+            tableHeader.style.height = this.gridSize + 'px';
 
             headerRow.appendChild(tableHeader);
             table.appendChild(headerRow);
@@ -551,12 +598,16 @@
             var newRow = document.createElement('tr');
             var cell = document.createElement('td');
             cell.innerHTML = i;
+            cell.style.width = this.gridSize + 'px';
+            cell.style.height = this.gridSize + 'px';
             newRow.appendChild(cell);
 
             for (var j = 0; j < this.columnCount; j++){
                 var newCell = document.createElement('td');
                 var coords = this.columnNames[j] + ',' + i;
                 newCell.setAttribute('id', coords);
+                newCell.style.width = this.gridSize + 'px';
+                newCell.style.height = this.gridSize + 'px';
                 newCell.setAttribute('onClick', "addToCell('" + coords + "')");
                 newCell.setAttribute('onmouseover', "paintToCell('" + coords + "')");
 
@@ -570,6 +621,7 @@
         displayCurrentToolset();
         document.getElementById('columnString').value = this.columnCount;
         document.getElementById('rowString').value = this.rowCount;
+        document.getElementById('gridString').value = this.gridSize;
 
         if (gridArea.childNodes[0]) {
             gridArea.removeChild(gridArea.childNodes[0]);
