@@ -7,10 +7,11 @@
     body {
         background-color: lightgrey;
     }
+
     #gridTable th, #gridTable td {
         border: 1px solid lightblue;
-/*        height: 40px;
-        width: 40px;*/
+        /*        height: 40px;
+                width: 40px;*/
         /*padding: 15px;*/
         font-family: "Courier New";
         text-align: center;
@@ -25,6 +26,7 @@
         user-select: none;
         opacity: .75;
     }
+
     th, td {
         border: 1px solid black;
         height: 40px;
@@ -36,6 +38,7 @@
         font-weight: bold;
         font-size: 18px;
     }
+
     .legend {
         color: black;
         font-weight: bold;
@@ -57,9 +60,13 @@
         <td id="chosenIcon" onclick="setInputType('icon')"></td>
         <td id="chosenColor1" onclick="setPrimaryColor(1);"></td>
         <td id="chosenColor2" onclick="setPrimaryColor(2);" style="display: none;"></td>
-        <td id="degreesBox" style="display: none; width: 50px;"><input type="text" name="Degree_String" id="chosenDegrees" onBlur="setDegrees()" maxlength="3" style="width: 50px;"></td>
-        <td id="toggleFill" style="display: none;"><input type="button" value="Toggle Fill" onclick="setInputType('fill')"></td>
-        <td id="showMultipleColorOptions"><input type="button" value="Advanced" onclick="showHideMultipleColorOptions()"></td>
+        <td id="degreesBox" style="display: none; width: 50px;"><input type="text" name="Degree_String"
+                                                                       id="chosenDegrees" onChange="setDegrees()"
+                                                                       maxlength="3" style="width: 50px;"></td>
+        <td id="toggleFill" style="display: none;"><input type="button" value="Toggle Fill"
+                                                          onclick="setInputType('fill')"></td>
+        <td id="showMultipleColorOptions"><input type="button" value="Advanced"
+                                                 onclick="showHideMultipleColorOptions()"></td>
 
     </tr>
 </table>
@@ -86,7 +93,8 @@
     </tr>
     <tr onclick="setInputType('color');">
         <td onclick="setColor('');" class="legend">Remove</td>
-        <td colspan="5"><input type="text" name="Color_String" id="colorString" onBlur="setColor('#' + this.value);" maxlength="6" placeholder="ex CFCFCF"></td>
+        <td colspan="5"><input type="text" name="Color_String" id="colorString" onChange="setColor('#' + this.value);"
+                               maxlength="6" placeholder="ex CFCFCF"></td>
     </tr>
 </table>
 
@@ -117,22 +125,26 @@
     </tr>
     <tr onclick="setInputType('icon');">
         <td onclick="setIcon('');" class="legend">Remove</td>
-        <td colspan="3"><input type="text" name="Icon_String" id="iconString" onBlur="setIcon('&#x' + this.value + ';');" maxlength="6" placeholder="ex 1F981"  style="width: 70px;"></td>
-        <td colspan="2"><input type="text" name="Icon_String2" id="iconString2" onBlur="setIcon(this.value);" maxlength="1" placeholder="ex &#x1F981;" style="width: 50px;"></td>
+        <td colspan="3"><input type="text" name="Icon_String" id="iconString"
+                               onChange="setIcon('&#x' + this.value + ';');" maxlength="6" placeholder="ex 1F981"
+                               style="width: 70px;"></td>
+        <td colspan="2"><input type="text" name="Icon_String2" id="iconString2" onChange="setIcon(this.value);"
+                               maxlength="1" placeholder="ex &#x1F981;" style="width: 50px;"></td>
     </tr>
 </table>
 
 <table id="noteTools" style="display: none;">
     <tr>
-        <th>Add a Note</th>
+        <th colspan="2">Add a Note</th>
     </tr>
     <tr>
-        <td style="width: 800px;">
-            <input type="text" name="Note_String" id="noteString" onBlur="setNote(); setInputType('note');" style="width: 100%;">
+        <td colspan="2" style="width: 800px;">
+            <input type="text" name="Note_String" id="noteString" onChange="setNote(); setInputType('note');"
+                   style="width: 100%;">
         </td>
     </tr>
     <tr>
-        <th>View Notes</th>
+        <th colspan="2">View Notes</th>
     </tr>
 </table>
 
@@ -145,9 +157,9 @@
     </tr>
     <tr>
         <td><input type="file" name="Map" id="map" onChange="readURL(this);"/></td>
-        <td><input type="text" name="Column_String" id="columnString" onBlur="setColumns()"></td>
-        <td><input type="text" name="Row_String" id="rowString" onBlur="setRows()"></td>
-        <td><input type="text" name="Grid_String" id="gridString" onBlur="setGridSize()"></td>
+        <td><input type="text" name="Column_String" id="columnString" onChange="setColumns()"></td>
+        <td><input type="text" name="Row_String" id="rowString" onChange="setRows()"></td>
+        <td><input type="text" name="Grid_String" id="gridString" onChange="setGridSize()"></td>
 
     </tr>
 </table>
@@ -158,7 +170,7 @@
     </tr>
     <tr>
         <td style="width: 800px;">
-            <input type="text" name="Input_String" id="inputString" onBlur="importString()" style="width: 100%;">
+            <input type="text" name="Input_String" id="inputString" onChange="importString()" style="width: 100%;">
         </td>
     </tr>
 </table>
@@ -183,23 +195,23 @@
     var gridSize = 25;
     var columnNames = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj', 'kk', 'll', 'mm', 'nn', 'oo', 'pp', 'qq', 'rr', 'ss', 'tt', 'uu', 'vv', 'ww', 'xx', 'yy', 'zz'];
     //var powerNames2 = ['Shape Land, 1"', 'Shape Climate, 1"', 'Create Race', 'Create Subrace', 'Command Race**', 'Command City**', 'Advance Civilization', 'Advance City', 'Purify Civilization, +1 Alignment*', 'Corrupt Civilization, -1 Alignment*', 'Purify City, +1 Alignment*', 'Corrupt City, -1 Alignment*', 'Event', 'Create Order', 'Command Order', 'Create Avatar', 'Command Avatar', 'Catastrophe, 1"'];
-    var powerNames = [{'Shape Land, 1"' : [3, 5, 8]}, {'Shape Climate, 1"' : [2, 4, 6]}, {'Create Race' : [22, 6, 15]}, {'Create Subrace' : [12, 4, 10]}, {'Command Race**' : [8, 4, 3]}, {'Command City**' : [6, 4, 2]}, {'Advance Civilization' : [10, 5, 6]}, {'Advance City' : [8, 4, 5]}, {'Purify Civilization, +1 Alignment*' : [5, 3, 4]}, {'Corrupt Civilization, -1 Alignment*' : [4, 3, 3]}, {'Purify City, +1 Alignment*' : [4, 3, 3]}, {'Corrupt City, -1 Alignment*' : [3, 2, 2]}, {'Event' : [10, 7, 9]}, {'Create Order' : [8, 6, 4]}, {'Command Order': [4, 3, 2]}, {'Create Avatar' : [10, 7, 8]}, {'Command Avatar' : [2, 1, 1]}, {'Catastrophe, 1"' : [10, 10, 10]}];
+    var powerNames = [{'Shape Land, 1"': [3, 5, 8]}, {'Shape Climate, 1"': [2, 4, 6]}, {'Create Race': [22, 6, 15]}, {'Create Subrace': [12, 4, 10]}, {'Command Race**': [8, 4, 3]}, {'Command City**': [6, 4, 2]}, {'Advance Civilization': [10, 5, 6]}, {'Advance City': [8, 4, 5]}, {'Purify Civilization, +1 Alignment*': [5, 3, 4]}, {'Corrupt Civilization, -1 Alignment*': [4, 3, 3]}, {'Purify City, +1 Alignment*': [4, 3, 3]}, {'Corrupt City, -1 Alignment*': [3, 2, 2]}, {'Event': [10, 7, 9]}, {'Create Order': [8, 6, 4]}, {'Command Order': [4, 3, 2]}, {'Create Avatar': [10, 7, 8]}, {'Command Avatar': [2, 1, 1]}, {'Catastrophe, 1"': [10, 10, 10]}];
     //var currentAge = 2;
     var mouseDown = 0;
 
-    document.body.onmousedown = function() {
+    document.body.onmousedown = function () {
         mouseDown = 1;
     };
-    document.body.onmouseup = function() {
+    document.body.onmouseup = function () {
         mouseDown = 0;
     };
-    addEventListener("touchstart", function(event){
+    addEventListener("touchstart", function (event) {
         mouseDown = 1;
     }, true);
-    addEventListener("touchend", function(event){
+    addEventListener("touchend", function (event) {
         mouseDown = 0;
     }, true);
-    addEventListener("touchmove", function(event){
+    addEventListener("touchmove", function (event) {
         if (mouseDown == 1) {
             var xcoord = event.touches ? event.touches[0].pageX : event.pageX;
             var ycoord = event.touches ? event.touches[0].pageY : event.pageY;
@@ -253,6 +265,7 @@
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
 
     }
+
     function setColor(choice) {
         if (this.primaryColor == 1) {
             this.color1 = choice;
@@ -262,16 +275,20 @@
 
         displayCurrentToolset();
     }
+
     function setIcon(choice) {
         this.icon = choice;
+
         displayCurrentToolset();
     }
+
     function setNote() {
         var note = document.getElementById('noteString').value;
-
         this.note = note;
+
         displayCurrentToolset();
     }
+
     function setInputType(choice) {
 
         if (choice == 'fill' && this.inputType == 'fill') {
@@ -282,26 +299,29 @@
 
         displayCurrentToolset();
     }
+
     function setColumns() {
         var columnValue = document.getElementById('columnString').value;
         if (columnValue > 52) {
             columnValue = 52;
         }
         this.columnCount = columnValue;
-        //readURL(document.getElementById('map'));
+
         renderTableGrid();
         importString();
     }
+
     function setRows() {
         var rowValue = document.getElementById('rowString').value;
         if (rowValue > 52) {
             rowValue = 52;
         }
         this.rowCount = rowValue;
-        //readURL(document.getElementById('map'));
+
         renderTableGrid();
         importString();
     }
+
     function setGridSize() {
         var gridValue = document.getElementById('gridString').value;
 
@@ -314,6 +334,7 @@
         renderTableGrid();
         importString();
     }
+
     function setDegrees() {
         var degrees = document.getElementById('chosenDegrees').value;
         if (degrees > 360) {
@@ -324,6 +345,7 @@
 
         displayCurrentToolset();
     }
+
     function setPrimaryColor(number) {
         this.primaryColor = number;
 
@@ -331,6 +353,7 @@
 
         displayCurrentToolset();
     }
+
     function showHideMultipleColorOptions() {
         document.getElementById('degreesHeader').style.display = '';
         document.getElementById('color2Header').style.display = '';
@@ -341,6 +364,7 @@
         document.getElementById('toggleFill').style.display = '';
         document.getElementById('showMultipleColorOptions').style.display = 'none';
     }
+
     function toggleTools(choice) {
         var current = document.getElementById(choice + 'Tools').style.display;
 
@@ -356,6 +380,7 @@
             document.getElementById(choice + 'Tools').style.display = 'none';
         }
     }
+
     function addToCell(coordinates) {
 
         if (!this.changeLog[coordinates]) {
@@ -372,7 +397,9 @@
             var coordinatesArray = coordinates.split(',');
             var xCoordinate = coordinatesArray[0];
             var yCoordinate = coordinatesArray[1];
-            var xKey = columnNames.findIndex(value => value === xCoordinate);
+            var xKey = columnNames.findIndex(value = > value === xCoordinate
+        )
+            ;
 
             this.inputType = 'color';
 
@@ -448,18 +475,23 @@
             var noteTable = document.getElementById('noteTools');
             var newNoteRow = document.createElement('tr');
             var newNote = document.createElement('td');
-            newNote.innerHTML = coordinates + ' : ' + this.note;
+            newNote.innerHTML = coordinates;
             newNoteRow.appendChild(newNote);
+            var newNote2 = document.createElement('td');
+            newNote2.innerHTML = this.note;
+            newNoteRow.appendChild(newNote2);
             noteTable.appendChild(newNoteRow);
         }
 
         document.getElementById('inputString').value = JSON.stringify(this.changeLog);
     }
+
     function paintToCell(coordinates) {
         if (mouseDown) {
             addToCell(coordinates);
         }
     }
+
     function importString() {
 
         var string = document.getElementById('inputString').value;
@@ -499,6 +531,7 @@
         }
 
     }
+
     function renderPointsTable() {
         var pointTools = document.getElementById('pointsTools');
         var table = document.createElement('table');
@@ -508,7 +541,7 @@
         tableHeader1.innerHTML = 'Power';
         headerRow.appendChild(tableHeader1);
 
-        this.powerNames.forEach(function(e) {
+        this.powerNames.forEach(function (e) {
             var tableHeader = document.createElement('th');
 
             var name = Object.keys(e)[0];
@@ -518,7 +551,7 @@
 
         table.appendChild(headerRow);
 
-        for (var i = 0; i < 3; i++){
+        for (var i = 0; i < 3; i++) {
 
             var newRow = document.createElement('tr');
             var tableHeader2 = document.createElement('th');
@@ -534,7 +567,7 @@
 
             newRow.appendChild(tableHeader2);
 
-            this.powerNames.forEach(function(e) {
+            this.powerNames.forEach(function (e) {
                 var name = Object.keys(e)[0];
                 var pointArray = e[name];
                 var cell1 = document.createElement('td');
@@ -547,6 +580,7 @@
 
         pointTools.appendChild(table);
     }
+
     /*
     function renderPointsTable2() {
         var pointTools = document.getElementById('pointsTools');
@@ -598,7 +632,7 @@
         var headerRow = document.createElement('tr');
         headerRow.appendChild(document.createElement('th'));
 
-        for (var i = 0; i < this.columnCount; i++){
+        for (var i = 0; i < this.columnCount; i++) {
             var tableHeader = document.createElement('th');
             tableHeader.innerHTML = this.columnNames[i];
             tableHeader.style.width = this.gridSize + 'px';
@@ -608,7 +642,7 @@
             table.appendChild(headerRow);
         }
 
-        for (var i = 1; i <= this.rowCount; i++){
+        for (var i = 1; i <= this.rowCount; i++) {
             var newRow = document.createElement('tr');
             var cell = document.createElement('td');
             cell.innerHTML = i;
@@ -616,7 +650,7 @@
             cell.style.height = this.gridSize + 'px';
             newRow.appendChild(cell);
 
-            for (var j = 0; j < this.columnCount; j++){
+            for (var j = 0; j < this.columnCount; j++) {
                 var newCell = document.createElement('td');
                 var coords = this.columnNames[j] + ',' + i;
                 newCell.setAttribute('id', coords);
@@ -624,7 +658,6 @@
                 newCell.style.height = this.gridSize + 'px';
                 newCell.setAttribute('onClick', "addToCell('" + coords + "')");
                 newCell.setAttribute('onmouseover', "paintToCell('" + coords + "')");
-
                 newRow.appendChild(newCell);
             }
 
